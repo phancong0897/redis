@@ -1,0 +1,11 @@
+- name: open firwalld
+  firewalld:
+    port: "{{item}}"
+    zone: public
+    permanent: true
+    state: enabled
+    immediate: true
+  with_items:
+  - 6379/tcp
+  - 26379/tcp
+  notify: restart_firewalld

@@ -1,0 +1,17 @@
+- hosts: centos
+  roles:
+    - firewalld
+    - redis
+- hosts: slave
+  vars_prompt:
+
+  - name: "IP_master"
+    prompt: "Nhap IP master"
+    private: no
+  tasks:
+  - name:
+    shell: echo slaveof "{{IP_master}}" 6379 >> /opt/redis/redis.conf
+  - name: restart sentinel
+    systemd:
+      name: redis-sentinel
+      state: restarted
